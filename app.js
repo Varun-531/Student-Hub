@@ -145,8 +145,14 @@ app.post("/logout", (req, res) => {
 });
 
 app.get("/confirmation/:id", async (req, res) => {
-  const internship = await Internship.findByPk(req.params.id);
-  res.json(internship);
+  const internshipId = req.params.id;
+  const internship = await Internship.findByPk(internshipId);
+  res.render("finalconfiramation", {
+    title: "Confirmation",
+    year: new Date().getFullYear(),
+    internship: internship,
+    internshipId: internshipId,
+  });
 });
 
 app.listen(3000, () => {

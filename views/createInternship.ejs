@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Internship</title>
+</head>
+
+<body>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    <button type="button" onclick="window.location.href='/home'" class="signup-button">Home</button>
+    <h1>Create Internship</h1>
+    <form action="/createInternship" method="post">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate" required>
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" name="endDate" required>
+        <button type="submit">Create</button>
+        <footer>
+            <p>&copy; <%= year %> Student Hub. All rights reserved.</p>
+        </footer>
+</body>
+
+</html>
