@@ -24,26 +24,78 @@ app.get("/login-page", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await User.findOne({ where: { Email: email, Password: password } });
-        if (user) {
-            res.render("home", {
-                title: "Home",
-                year: new Date().getFullYear(),
-                user: user
-            });
-        } else {
-            res.send("Invalid credentials");
-        }
-    } catch (e) {
-        console.log(e);
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({
+      where: { Email: email, Password: password },
+    });
+    if (user) {
+      res.render("home", {
+        title: "Home",
+        year: new Date().getFullYear(),
+        user: user,
+        internships: await Internship.getAllInternships(),
+      });
+    } else {
+      res.send("Invalid credentials");
     }
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
     title: "Signup",
+    year: new Date().getFullYear(),
+  });
+});
+
+app.get("/home", (req, res) => {
+  if (req.user) {
+    res.render("home", {
+      title: "Home",
+      year: new Date().getFullYear(),
+      user: req.user,
+    });
+  } else {
+    res.render("login", {
+      title: "Login",
+      year: new Date().getFullYear(),
+    });
+  }
+});
+
+app.post("/createInternship", async (req, res) => {
+  const { title, description, startDate, endDate, location } = req.body;
+  try {
+    await Internship.uploadInternship(
+      title,
+      description,
+      startDate,
+      endDate,
+      location
+    );
+    if (!req.user) {
+      res.render("login", {
+        title: "Login",
+        year: new Date().getFullYear(),
+      });
+    } else {
+      res.render("home", {
+        title: "Home",
+        year: new Date().getFullYear(),
+        user: req.user,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+app.get("/Internship-Page", (req, res) => {
+  res.render("createInternship", {
+    title: "Create Internship",
     year: new Date().getFullYear(),
   });
 });
@@ -59,10 +111,10 @@ app.post("/signup", async (req, res) => {
       await User.createUser(firstName, lastName, email, password);
       res.render("login", {
         title: "Login",
-        user : {
+        user: {
           FirstName: firstName,
           LastName: lastName,
-          isAdmin: false
+          isAdmin: false,
         },
         year: new Date().getFullYear(),
       });
@@ -85,12 +137,17 @@ app.get("/internships/:studentId", async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-    res.render("index", {
-        title: "Student Hub",
-        slogan: "Your go-to place for educational resources",
-        year: new Date().getFullYear(),
-    });
-    });
+  res.render("index", {
+    title: "Student Hub",
+    slogan: "Your go-to place for educational resources",
+    year: new Date().getFullYear(),
+  });
+});
+
+app.get("/confirmation/:id", async (req, res) => {
+  const internship = await Internship.findByPk(req.params.id);
+  res.json(internship);
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
