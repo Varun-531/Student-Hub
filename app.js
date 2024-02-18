@@ -25,16 +25,17 @@ app.get("/login-page", (req, res) => {
   });
 });
 
-let userid; 
+let userid;
 let useremail;
 let userD;
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({
-      where: { Email: email, Password: password },
+      where: { Email: email },
     });
-    if (user) {
+    if (user && user.validatePassword(password)) {
       userD = user;
       useremail = user.Email;
       userid = user.id;
@@ -47,6 +48,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
     title: "Signup",
@@ -55,6 +57,9 @@ app.get("/signup-page", (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
+  if (userD === undefined) {
+    res.redirect("/login-page");
+  }
   const internships = await Internship.getAllInternships();
   res.render("home", {
     title: "Home",
@@ -97,6 +102,35 @@ app.get("/Internship-Page", (req, res) => {
     title: "Create Internship",
     year: new Date().getFullYear(),
   });
+});
+
+//add a route to handle deleting an internship
+app.get("/internshipDelete/:id", async (req, res) => {
+  const internshipId = req.params.id;
+  try {
+    await Internship.destroy({ where: { id: internshipId } });
+
+    // delete the all in the studentinternship table and return all emails of the students id which are dleted
+    const studentInternships = await StudentInternship.findAll({
+      where: { InternshipID: internshipId },
+    });
+    const studentEmails = [];
+    for (let i = 0; i < studentInternships.length; i++) {
+      const student = await User.findOne({
+        where: { id: studentInternships[i].studentID },
+      });
+      studentEmails.push(student.Email);
+    }
+    // delete the all in the studentinternship table
+    await StudentInternship.destroy({ where: { InternshipID: internshipId } });
+    console.log('====================================');
+    console.log(studentEmails);
+    console.log('====================================');
+
+    res.redirect("/home");
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 app.post("/signup", async (req, res) => {
