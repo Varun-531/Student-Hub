@@ -15,6 +15,15 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    //create a function that takes id and 
+    static async getUserById(id) {
+      // return only the email
+      return User.findByPk(id, {
+        attributes: ["Email"],
+      });
+    }
+
+
     static async getUserByEmail(email) {
       return User.findOne({ where: { Email: email } });
     }

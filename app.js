@@ -9,13 +9,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
 const cheerio = require("cheerio");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   service: "hotmail",
   auth: {
     user: "student-hub@hotmail.com",
-    pass: "Studenthub@2"
-  }
+    pass: "Studenthub@2",
+  },
 });
 
 app.get("/", (req, res) => {
@@ -58,12 +58,11 @@ app.post("/login", async (req, res) => {
 
 //create a temporary route to test the email functionality
 
-
 // Define the route to send the email
 app.get("/sendemail", (req, res) => {
   const mailOptions = {
     from: "student-hub@hotmail.com",
-    to: ["chvarun2908@gmail.com","gopivarun1234@gmail.com"],
+    to: ["chvarun2908@gmail.com", "gopivarun1234@gmail.com"],
     subject: "Test Email",
     text: "This is a test email",
   };
@@ -72,14 +71,13 @@ app.get("/sendemail", (req, res) => {
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {
       console.log(err);
-      return res.status(500).send('Error sending email');
+      return res.status(500).send("Error sending email");
     }
 
     console.log("Sent: " + info.response);
-    res.send('Email sent successfully!');
+    res.send("Email sent successfully!");
   });
 });
-
 
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
@@ -101,9 +99,6 @@ app.get("/home", async (req, res) => {
     internships: internships,
   });
 });
-
-
-
 
 app.post("/createInternship", async (req, res) => {
   const { title, description, startDate, endDate, location } = req.body;
@@ -163,15 +158,26 @@ app.get("/internshipDelete/:id", async (req, res) => {
     await Internship.destroy({ where: { id: internshipId } });
 
     //store all the ids of students whose internship is being deleted with the help of the getStudentIdByInternshipId function
-    const studentInternshipIDs = await StudentInternship.getStudentIdByInternshipId(
-      internshipId
-    );
+    const studentInternshipIDs =
+      await StudentInternship.getStudentIdByInternshipId(internshipId);
     // delete all records in the studentinternship table
     await StudentInternship.destroy({ where: { InternshipID: internshipId } });
+    // const deletedInternship = await Internship.findOne({ where: { id: internshipId } });
 
-    console.log('====================================');
-    console.log(studentInternshipIDs);
-    console.log('====================================');
+    const mailOptions = {
+      from: "student-hub@hotmail.com",
+      to: "chvarun2908@gmail.com", // Replace with the admin's email address
+      subject: "Internship Deleted",
+      text: `The following internship has been deleted: ${internshipId}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
 
     res.redirect("/home");
   } catch (e) {
@@ -210,12 +216,7 @@ app.get("/internships", async (req, res) => {
 
 app.post("/confirm-internship/:id", async (req, res) => {
   const internshipId = req.params.id;
-  // const { studentId} = req.body;
-  console.log("====================================");
-  console.log(req.body);
-  console.log("====================================");
-  console.log(userid, internshipId);
-  console.log("====================================");
+
   try {
     if (
       await StudentInternship.isStudentJoinedInternship(userid, internshipId)
@@ -223,10 +224,32 @@ app.post("/confirm-internship/:id", async (req, res) => {
       res.send("You have already joined this internship");
     } else {
       await StudentInternship.studentJoinInternship(userid, internshipId);
+
+      // Get the user by id
+      const user = await User.getUserById(userid);
+      const userEmail = user.dataValues.Email; // Extract the email address
+
+      // Send email to the student
+      const mailOptions = {
+        from: "student-hub@hotmail.com",
+        to: userEmail, // Pass the email address
+        subject: "Internship Confirmation",
+        text: "Congratulations! You have successfully applied for the internship.",
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+
       res.redirect("/home");
     }
   } catch (e) {
     console.log(e);
+    res.status(500).send("Error confirming internship");
   }
 });
 
