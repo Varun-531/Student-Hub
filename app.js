@@ -4,6 +4,7 @@ const ejs = require("ejs");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { User, Internship, StudentInternship } = require("./models");
+const { log } = require("console");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,10 +31,12 @@ app.post("/login", async (req, res) => {
       where: { Email: email, Password: password },
     });
     if (user) {
+      const userid = user.id; 
       res.render("home", {
         title: "Home",
         year: new Date().getFullYear(),
         user: user,
+        userid: userid,
         internships: await Internship.getAllInternships(),
       });
     } else {
@@ -127,6 +130,24 @@ app.post("/signup", async (req, res) => {
 app.get("/internships", async (req, res) => {
   const internships = await Internship.getAllInternships();
   res.json(internships);
+});
+
+app.post("/confirm-internship/:id", async (req, res) => {
+
+  const internshipId = req.params.id;
+  const { studentId} = req.body;
+  console.log('====================================');
+  // console.log('====================================');
+  console.log(req.body);
+  console.log('====================================');
+  console.log(studentId, internshipId);
+  console.log('====================================');
+  try {
+    await StudentInternship.studentJoinInternship(studentId, internshipId);
+    res.redirect("/home");
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 app.get("/internships/:studentId", async (req, res) => {
