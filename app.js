@@ -102,7 +102,7 @@ app.get("/home", async (req, res) => {
   });
 });
 
-const nodemailer = require('nodemailer');
+
 
 
 app.post("/createInternship", async (req, res) => {
@@ -119,7 +119,7 @@ app.post("/createInternship", async (req, res) => {
     // Send email to admin
     const mailOptions = {
       from: "student-hub@hotmail.com",
-      to: "admin@example.com", // Replace with the admin's email address
+      to: "chvarun2908@gmail.com", // Replace with the admin's email address
       subject: "New Internship Created",
       text: `A new internship titled "${title}" has been created.`,
     };
