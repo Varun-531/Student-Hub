@@ -23,6 +23,15 @@ module.exports = (sequelize, DataTypes) => {
         InternshipID: InternshipID,
       });
     }
+
+    static getInternshipByStudentId(studentId) {
+      return StudentInternship.findAll({
+        where: { studentID: studentId },
+        attributes: ['InternshipID'], // Include only the InternshipID in the result
+        raw: true, // Return plain JSON objects instead of instances
+      });
+    }
+    
     //function to check is student has joined an internship
     static async isStudentJoinedInternship(studentID, InternshipID) {
       const studentInternship = await StudentInternship.findOne({

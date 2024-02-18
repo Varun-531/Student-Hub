@@ -10,6 +10,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
 const cheerio = require("cheerio");
 const nodemailer = require("nodemailer");
+const studentinternship = require("./models/studentinternship");
 const transporter = nodemailer.createTransport({
   service: "hotmail",
   auth: {
@@ -143,6 +144,29 @@ app.post("/createInternship", async (req, res) => {
     console.log(e);
   }
 });
+
+app.get("/applied-internships", async (req, res) => {
+  if (userD === undefined) {
+    res.redirect("/login-page");
+  }
+
+  // Retrieve internship IDs from the array
+  const internshipIds = (await StudentInternship.getInternshipByStudentId(userid)).map(internship => internship.InternshipID);
+
+  console.log('====================================');
+  console.log(internshipIds);
+  console.log('====================================');
+
+  // Retrieve internships by their IDs
+  const internships = await Promise.all(internshipIds.map(id => Internship.getInternshipById(id)));
+
+  res.render("appliedInternships", {
+    title: "Applied Internships",
+    year: new Date().getFullYear(),
+    internships: internships,
+  });
+});
+
 
 app.get("/Internship-Page", (req, res) => {
   res.render("createInternship", {

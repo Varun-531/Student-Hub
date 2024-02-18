@@ -18,16 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       return Internship.findAll();
     }
 
-    static getInternshipByStudentId(studentId) {
-      return Internship.findAll({
-        include: {
-          model: StudentInternship,
-          where: {
-            studentID: studentId,
-          },
-        },
+    //create method that gives title by id
+    static getInternshipById(id) {
+      return Internship.findOne({
+        where: { InternshipID: id },
       });
     }
+    static getInternshipById(id) {
+      return Internship.findByPk(id);
+    }
+    
 
     static uploadInternship(title, description, startDate, endDate, location) {
       return Internship.create({
