@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const cheerio = require("cheerio");
 const nodemailer = require("nodemailer");
 const studentinternship = require("./models/studentinternship");
+app.use(express.static(path.join(__dirname, "public")));
 const transporter = nodemailer.createTransport({
   service: "hotmail",
   auth: {
