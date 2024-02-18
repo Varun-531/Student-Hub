@@ -9,6 +9,14 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
 const cheerio = require("cheerio");
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  service: "hotmail",
+  auth: {
+    user: "student-hub@hotmail.com",
+    pass: "Studenthub@2"
+  }
+});
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -48,6 +56,30 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//create a temporary route to test the email functionality
+
+
+// Define the route to send the email
+app.get("/sendemail", (req, res) => {
+  const mailOptions = {
+    from: "student-hub@hotmail.com",
+    to: ["chvarun2908@gmail.com","gopivarun1234@gmail.com"],
+    subject: "Test Email",
+    text: "This is a test email",
+  };
+
+  // Use the transporter to send the email
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Error sending email');
+    }
+
+    console.log("Sent: " + info.response);
+    res.send('Email sent successfully!');
+  });
+});
+
 
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
@@ -70,6 +102,9 @@ app.get("/home", async (req, res) => {
   });
 });
 
+const nodemailer = require('nodemailer');
+
+
 app.post("/createInternship", async (req, res) => {
   const { title, description, startDate, endDate, location } = req.body;
   try {
@@ -80,6 +115,23 @@ app.post("/createInternship", async (req, res) => {
       endDate,
       location
     );
+
+    // Send email to admin
+    const mailOptions = {
+      from: "student-hub@hotmail.com",
+      to: "admin@example.com", // Replace with the admin's email address
+      subject: "New Internship Created",
+      text: `A new internship titled "${title}" has been created.`,
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
     if (!req.user) {
       res.render("login", {
         title: "Login",
@@ -110,21 +162,15 @@ app.get("/internshipDelete/:id", async (req, res) => {
   try {
     await Internship.destroy({ where: { id: internshipId } });
 
-    // delete the all in the studentinternship table and return all emails of the students id which are dleted
-    const studentInternships = await StudentInternship.findAll({
-      where: { InternshipID: internshipId },
-    });
-    const studentEmails = [];
-    for (let i = 0; i < studentInternships.length; i++) {
-      const student = await User.findOne({
-        where: { id: studentInternships[i].studentID },
-      });
-      studentEmails.push(student.Email);
-    }
-    // delete the all in the studentinternship table
+    //store all the ids of students whose internship is being deleted with the help of the getStudentIdByInternshipId function
+    const studentInternshipIDs = await StudentInternship.getStudentIdByInternshipId(
+      internshipId
+    );
+    // delete all records in the studentinternship table
     await StudentInternship.destroy({ where: { InternshipID: internshipId } });
+
     console.log('====================================');
-    console.log(studentEmails);
+    console.log(studentInternshipIDs);
     console.log('====================================');
 
     res.redirect("/home");

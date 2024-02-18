@@ -31,6 +31,12 @@ module.exports = (sequelize, DataTypes) => {
 
       return !!studentInternship; // Returns true if studentInternship exists, false otherwise
     }
+    //find student id by internship id
+    static getStudentIdByInternshipId(internshipId) {
+      return StudentInternship.findAll({
+        where: { InternshipID: internshipId },
+      });
+    }
   }
   StudentInternship.init(
     {
