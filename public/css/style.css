@@ -1,12 +1,27 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  overflow-y: auto; /* or overflow-y: hidden; */
+}
+
 footer {
   background-color: #f2f2f2;
   padding: 10px;
   text-align: center;
   font-size: 14px;
-  position: fixed;
+  position:sticky;
   bottom: 0;
+  height: 51px;
+  /* z-index: 1000; */
   width: 100%;
   font-family: "Poppins", Arial, sans-serif;
+}
+header h1 {
+  font-weight: normal;
+  font-size: xx-large;
 }
 header {
   background-color: #f2f2f2;
@@ -18,6 +33,7 @@ header {
   justify-content: space-between;
   display: flex;
   align-items: center;
+  height: 90px;
 }
 header button {
   float: right;
@@ -29,36 +45,70 @@ header button.btn.btn-primary:hover {
   background-color: #8993bd !important;
   color: black;
 }
-.form{
-    display: flex;
-    flex-direction: column;
+header p,
+a {
+  font-size: large;
 }
-.form input{
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 500px;
-    height: 40px;
-}   
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.form input {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 500px;
+  height: 40px;
+}
 button {
-    background-color: #2f2e41;
-    float: right;
-    margin-right: 10px;
-    width: 100px;
-    height: 40px;
-  }
-  button.btn.btn-primary:hover {
-    background-color: #8993bd !important;
-    color: black;
-  }
+  background-color: #2f2e41;
+  float: right;
+  margin-right: 10px;
+  width: 100px;
+  height: 40px;
+}
+button.btn.btn-primary:hover {
+  background-color: #8993bd !important;
+  color: black;
+}
 
-  a{
-    text-decoration: none !important;
-    color: black !important;
-  }
+a {
+  text-decoration: none !important;
+  color: black !important;
+}
 
-  #a-login:hover{
-    font-weight: bold;
-    transition: smooth 1s;
-  }
+#a-login:hover {
+  font-weight: bold;
+  transition: smooth 1s;
+}
+header a:hover {
+  font-weight: bold;
+  transition: smooth 1s;
+}
+
+h2{
+  font-weight:lighter;
+}
+.internship {
+  width: 59%;
+}
+#join{
+  width: 1000px !important;
+  height: 50px !important;
+  background-color: #2f2e41;
+  color: white;
+}
+.inte p{
+  font-size: large;
+}
+
+#back{
+  background-color: rgb(224, 255, 245);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  
+}
