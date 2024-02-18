@@ -23,6 +23,24 @@ app.get("/login-page", (req, res) => {
   });
 });
 
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ where: { Email: email, Password: password } });
+        if (user) {
+            res.render("home", {
+                title: "Home",
+                year: new Date().getFullYear(),
+                user: user
+            });
+        } else {
+            res.send("Invalid credentials");
+        }
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
     title: "Signup",
@@ -39,7 +57,15 @@ app.post("/signup", async (req, res) => {
       res.send("User already exists");
     } else {
       await User.createUser(firstName, lastName, email, password);
-      res.send("User created successfully");
+      res.render("login", {
+        title: "Login",
+        user : {
+          FirstName: firstName,
+          LastName: lastName,
+          isAdmin: false
+        },
+        year: new Date().getFullYear(),
+      });
     }
   } catch (e) {
     console.log(e);
@@ -57,6 +83,14 @@ app.get("/internships/:studentId", async (req, res) => {
   );
   res.json(internships);
 });
+
+app.post("/logout", (req, res) => {
+    res.render("index", {
+        title: "Student Hub",
+        slogan: "Your go-to place for educational resources",
+        year: new Date().getFullYear(),
+    });
+    });
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

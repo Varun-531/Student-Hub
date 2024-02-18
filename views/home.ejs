@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Welcome to Student Hub</h1>
+      <% if (user) { %>
+      <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
+      
+      <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+      </form>
+      <% } else { %>
+      <p>No User</p>
+      <% } %>
+    </header>
+    <section>
+      <h2>Available Internships</h2>
+    </section>
+    <footer>
+      <p>&copy; <%= year %> Student Hub. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
