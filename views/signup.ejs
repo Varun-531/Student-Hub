@@ -3,24 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>Signup</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <header>
       <h1>Signup</h1>
     </header>
 
-    <section>
-      <button
-        type="button"
-        onclick="window.location.href='/login-page'"
-        class="login-button"
-      >
-        Login
-      </button>
+    <section class="ms-5 d-flex justify-content-between" >
+      
 
       <!-- Your signup form goes here -->
-      <form action="/signup" method="post">
+      <form action="/signup" method="post" class="form mt-3">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required />
 
@@ -33,23 +34,14 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
-        <button type="submit">Signup</button>
-        <p style="text-align: center; margin-bottom: 0%; padding-bottom: 0%">
-          Already a user?
-        </p>
-        <button
-          type="button"
-          onclick="window.location.href='/login-page'"
-          class="login-button"
-        >
-          Login
-        </button>
+        <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;">Signup</button>
+        <a id="a-login" href="/login-page" style="margin-bottom: 0%; padding-bottom: 0%" class="fs-4"> Already a user? Click me..</a>
       </form>
-
+      <img src="./assets/images/signup.png" alt="" style="height: 500px; width:auto;">
       <!-- If already a user, show a button to redirect to the login page -->
     </section>
 
-    <footer>
+    <footer class="fs-4">
       <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
     </footer>
   </body>

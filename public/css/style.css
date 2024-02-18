@@ -29,3 +29,36 @@ header button.btn.btn-primary:hover {
   background-color: #8993bd !important;
   color: black;
 }
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form input{
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 500px;
+    height: 40px;
+}   
+button {
+    background-color: #2f2e41;
+    float: right;
+    margin-right: 10px;
+    width: 100px;
+    height: 40px;
+  }
+  button.btn.btn-primary:hover {
+    background-color: #8993bd !important;
+    color: black;
+  }
+
+  a{
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  #a-login:hover{
+    font-weight: bold;
+    transition: smooth 1s;
+  }

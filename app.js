@@ -83,7 +83,9 @@ app.get("/sendemail", (req, res) => {
 
 app.get("/signup-page", (req, res) => {
   res.render("signup", {
-    title: "Signup",
+    year: new Date().getFullYear(),
+
+    title: "Students Hub",
     year: new Date().getFullYear(),
   });
 });
