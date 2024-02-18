@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
         InternshipID: InternshipID,
       });
     }
+    //function to check is student has joined an internship
+    static async isStudentJoinedInternship(studentID, InternshipID) {
+      const studentInternship = await StudentInternship.findOne({
+        where: { studentID: studentID, InternshipID: InternshipID },
+      });
+
+      return !!studentInternship; // Returns true if studentInternship exists, false otherwise
+    }
   }
   StudentInternship.init(
     {

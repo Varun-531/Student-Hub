@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
+    static async getUserByEmail(email) {
+      return User.findOne({ where: { Email: email } });
+    }
+
     static createUser(firstName, lastName, email, password, isAdmin) {
       return User.create({
         FirstName: firstName,

@@ -4,48 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <meta name="userid" content="<%= userid %>" />
   </head>
 
   <body>
     <header>
-        <h1>Welcome to Student Hub</h1>
-        <% if (user) { %>
-        <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
-        <% if (user.isAdmin) { %>
-          <p>Admin 🪦</p>
-          <a href="/Internship-Page">Create Internship</a>
-        <% } else { %>
-          <p>Student🧑‍🎓</p>
-        <% } %>
-        <% if (!user) { %>
-          <script>
-            window.location.href = "/login";
-          </script>
-        <% } %>
-        <form action="/logout" method="post">
-            <button type="submit">Logout</button>
-        </form>
-        <% } else { %>
-        <p>No User</p>
-        <% } %>
+      <h1>Welcome to Student Hub</h1>
+      <% if (user) { %>
+      <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
+      <% if (user.isAdmin) { %>
+      <p>Admin 🪦</p>
+      <a href="/Internship-Page">Create Internship</a>
+      <% } else { %>
+      <p>Student🧑‍🎓</p>
+      <% } %> <% if (!user) { %>
+      <script>
+        window.location.href = "/login";
+      </script>
+      <% } %>
+      <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+      </form>
+      <% } else { %>
+      <p>No User</p>
+      <% } %>
     </header>
     <section>
       <h2>Available Internships</h2>
-      <% internships.forEach(function(internship) { %>
-        <div>
-          <h3><%= internship.Title %></h3>
-          <p><%= internship.Description %></p>
-          <p>Start Date: <%= internship.StartDate %></p>
-          <!-- <p>End Date: <%= internship.EndDate %></p> -->
-          <p>Location: <%= internship.Location %></p>
-          <% 
-            const startDate = new Date(internship.StartDate);
-            const endDate = new Date(internship.EndDate);
-            const durationInMonths = Math.round((endDate - startDate) / (30 * 24 * 60 * 60 * 1000));
-          %>
-          <p>Duration: <%= durationInMonths %> months</p>
-          <a href="/confirmation/<%= internship.id %>">Join</a>
-        </div>
+      <% internships.forEach((internship) => { %>
+      <div>
+        <h3><%= internship.Title %></h3>
+        <p><%= internship.Description %></p>
+        <p>Start Date: <%= internship.StartDate %></p>
+        <!-- <p>End Date: <%= internship.EndDate %></p> -->
+        <p>Location: <%= internship.Location %></p>
+        <% const startDate = new Date(internship.StartDate); const endDate = new
+        Date(internship.EndDate); const durationInMonths = Math.round((endDate -
+        startDate) / (30 * 24 * 60 * 60 * 1000)); %>
+        <p>Duration: <%= durationInMonths %> months</p>
+        <% if (user && user.isAdmin) { %>
+        <!-- Code visible only to admins -->
+        <a href="/internshipDelete/<%= internship.id %>">Delete</a>
+        <% } %>
+        <% if (user && !user.isAdmin) { %>
+        <!-- Code visible only to students -->
+        <a href="/confirmation/<%= internship.id %>">Join</a>
+        <% } %>
+      </div>
       <% }); %>
     </section>
     <footer>

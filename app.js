@@ -8,6 +8,7 @@ const { log } = require("console");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
+const cheerio = require("cheerio");
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -24,6 +25,9 @@ app.get("/login-page", (req, res) => {
   });
 });
 
+let userid; 
+let useremail;
+let userD;
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -31,14 +35,10 @@ app.post("/login", async (req, res) => {
       where: { Email: email, Password: password },
     });
     if (user) {
-      const userid = user.id; 
-      res.render("home", {
-        title: "Home",
-        year: new Date().getFullYear(),
-        user: user,
-        userid: userid,
-        internships: await Internship.getAllInternships(),
-      });
+      userD = user;
+      useremail = user.Email;
+      userid = user.id;
+      res.redirect("/home");
     } else {
       res.send("Invalid credentials");
     }
@@ -54,19 +54,15 @@ app.get("/signup-page", (req, res) => {
   });
 });
 
-app.get("/home", (req, res) => {
-  if (req.user) {
-    res.render("home", {
-      title: "Home",
-      year: new Date().getFullYear(),
-      user: req.user,
-    });
-  } else {
-    res.render("login", {
-      title: "Login",
-      year: new Date().getFullYear(),
-    });
-  }
+app.get("/home", async (req, res) => {
+  const internships = await Internship.getAllInternships();
+  res.render("home", {
+    title: "Home",
+    year: new Date().getFullYear(),
+    user: userD,
+    userid: userid,
+    internships: internships,
+  });
 });
 
 app.post("/createInternship", async (req, res) => {
@@ -133,18 +129,22 @@ app.get("/internships", async (req, res) => {
 });
 
 app.post("/confirm-internship/:id", async (req, res) => {
-
   const internshipId = req.params.id;
-  const { studentId} = req.body;
-  console.log('====================================');
-  // console.log('====================================');
+  // const { studentId} = req.body;
+  console.log("====================================");
   console.log(req.body);
-  console.log('====================================');
-  console.log(studentId, internshipId);
-  console.log('====================================');
+  console.log("====================================");
+  console.log(userid, internshipId);
+  console.log("====================================");
   try {
-    await StudentInternship.studentJoinInternship(studentId, internshipId);
-    res.redirect("/home");
+    if (
+      await StudentInternship.isStudentJoinedInternship(userid, internshipId)
+    ) {
+      res.send("You have already joined this internship");
+    } else {
+      await StudentInternship.studentJoinInternship(userid, internshipId);
+      res.redirect("/home");
+    }
   } catch (e) {
     console.log(e);
   }
