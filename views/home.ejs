@@ -31,36 +31,51 @@
       </script>
       <% } %>
       <form action="/logout" method="post">
-        <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;">Logout</button>
+        <button
+          type="submit"
+          class="btn btn-primary m-3 fw-semibold"
+          style="background-color: #2f2e41; border: none"
+        >
+          Logout
+        </button>
       </form>
       <% } else { %>
       <p>No User</p>
       <% } %>
     </header>
-    <section class="ms-5 inte">
-      <h2 class="fs-2 h2">Available Internships</h2>
-      <% internships.forEach((internship) => { %>
-      <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded">
-        <h3><%= internship.Title %></h3>
-        <p><%= internship.Description %></p>
-        <p>Start Date: <%= internship.StartDate %></p>
-        <!-- <p>End Date: <%= internship.EndDate %></p> -->
-        <p>Location: <%= internship.Location %></p>
-        <% const startDate = new Date(internship.StartDate); const endDate = new
-        Date(internship.EndDate); const durationInMonths = Math.round((endDate -
-        startDate) / (30 * 24 * 60 * 60 * 1000)); %>
-        <p>Duration: <%= durationInMonths %> months</p>
-        <% if (user && user.isAdmin) { %>
-        <!-- Code visible only to admins -->
-        <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
-        <a href="/internshipDelete/<%= internship.id %>">Delete</a>
-        <% } %>
-        <% if (user && !user.isAdmin) { %>
-        <!-- Code visible only to students -->
-        <a id="join" href="/confirmation/<%= internship.id %>">Join</a>
-        <% } %>
+    <section class="ms-5 inte d-flex justify-content-between">
+      <div style="width: 60%">
+        <h2 class="fs-2 h2 mt-3 mb-3">Available Internships</h2>
+        <% internships.forEach((internship) => { %>
+        <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded">
+          <h3 class="mb-2"><%= internship.Title %></h3>
+          <p class="ms-3"><%= internship.Description %></p>
+          <p class="ms-3">Start Date: <%= internship.StartDate %></p>
+          <!-- <p>End Date: <%= internship.EndDate %></p> -->
+          <p class="ms-3">Location: <%= internship.Location %></p>
+          <% const startDate = new Date(internship.StartDate); const endDate =
+          new Date(internship.EndDate); const durationInMonths =
+          Math.round((endDate - startDate) / (30 * 24 * 60 * 60 * 1000)); %>
+          <p class="ms-3">Duration: <%= durationInMonths %> months</p>
+          <% if (user && user.isAdmin) { %>
+          <!-- Code visible only to admins -->
+          <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
+          <button class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;"><a href="/internshipDelete/<%= internship.id %>">Delete</a></button>
+          <% } %> <% if (user && !user.isAdmin) { %>
+          <!-- Code visible only to students -->
+          <button class="btn btn-primary m-3 fw-semibold hell" style="background-color: #2f2e41; border: none;" type="button" onclick="window.location.href='/confirmation/<%= internship.id %>'">Join</button>
+          <!-- <button >
+            <a id="join" href="/confirmation/<%= internship.id %>">Join</a>
+          </button> -->
+          <% } %>
+        </div>
+        <% }); %>
       </div>
-      <% }); %>
+      <img
+        src="./assets/images/working.svg"
+        alt="working"
+        style="height: 400px; width: auto; position: fixed; right: -35px ;padding:48px 75px 0px 0px;margin-top: 40px;"
+      />
     </section>
     <footer class="fs-4">
       <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>

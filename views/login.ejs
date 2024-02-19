@@ -18,22 +18,22 @@
       <h1>Sign in</h1>
     </header>
 
-    <section class="ms-5 d-flex justify-content-between" >
-      <form action="/login" method="post"  class="form mt-3">
+    <section class="ms-5 d-flex justify-content-between align-items-center" >
+      <form action="/login" method="post"  class="form mt-3 form1">
         <label for="email">Email:</label><br />
         <input type="email" id="email" name="email" required /><br />
   
         <label for="password">Password:</label><br />
         <input type="password" id="password" name="password" required /><br />
   
-        <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;">Login</button><br />
+        <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none; margin-top:5px !important;">Login</button><br />
         <!-- If not a user, show signup button -->
-        <a id="a-login" href="/signup-page" style="margin-bottom: 0%; padding-bottom: 0%" class="fs-4">New Here? Click Me..</a>
+        <a id="a-login" href="/signup-page" style="margin-bottom: 0%; padding-bottom: 0%" class="fs-5">New Here? Click Me..</a>
       </form>
       <img src="./assets/images/login.png" alt="" style="height: 500px; width:auto;">
     </section>
-    <footer>
-        <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
+    <footer class="fs-4">
+      <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
     </footer>
   </body>
 </html>

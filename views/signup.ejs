@@ -17,9 +17,7 @@
       <h1>Signup</h1>
     </header>
 
-    <section class="ms-5 d-flex justify-content-between" >
-      
-
+    <section class="ms-5 d-flex justify-content-between">
       <!-- Your signup form goes here -->
       <form action="/signup" method="post" class="form mt-3">
         <label for="firstName">First Name:</label>
@@ -34,10 +32,27 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
 
-        <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;">Signup</button>
-        <a id="a-login" href="/login-page" style="margin-bottom: 0%; padding-bottom: 0%" class="fs-4"> Already a user? Click me..</a>
+        <button
+          type="submit"
+          class="btn btn-primary m-3 fw-semibold"
+          style="background-color: #2f2e41; border: none; margin-top:5px !important;"
+        >
+          Signup
+        </button>
+        <a
+          id="a-login"
+          href="/login-page"
+          style="margin-bottom: 0%; padding-bottom: 0%; margin-left: 10px;"
+          class="fs-5"
+        >
+          Already a user? Click me..</a
+        >
       </form>
-      <img src="./assets/images/signup.png" alt="" style="height: 500px; width:auto;">
+      <img
+        src="./assets/images/signup.svg"
+        alt=""
+        style="height: 400px; width: auto; margin-top: 30px;"
+      />
       <!-- If already a user, show a button to redirect to the login page -->
     </section>
 
