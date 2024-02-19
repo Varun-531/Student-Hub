@@ -6,13 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Applied Internships</title>
     <link rel="stylesheet" href="./css/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-  </head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <style>
+        * {
+            text-decoration: none !important;
+        }
+
+        .intership-details-container {
+            list-style: none;
+            padding: 0;
+            width: 100px;
+            padding-bottom: 10px;
+        }
+        /* .intership-details-container:hover{
+            background-color: white !important;
+        } */
+
+        .internship-details {
+            /* border: black;
+            border-style: solid; */
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #ced4da;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%238993bd' fill-opacity='0.2' d='M0,256L40,234.7C80,213,160,171,240,160C320,149,400,171,480,165.3C560,160,640,128,720,133.3C800,139,880,181,960,197.3C1040,213,1120,203,1200,202.7C1280,203,1360,213,1400,218.7L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            padding: 5px;
+            width:600px
+        }
+        ul li p{
+            font-size: larger;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,11 +48,11 @@
         <h1>Applied Internships</h1>
     </header>
     <section>
-        <h2>Internship Details</h2>
-        <ul class="internship -details-container">
+        <h2 style="margin-left: 10px;">Internship Details</h2>
+        <ul class="internship-details-container">
             <% internships.forEach((internship) => { %>
-            <li class="internship-details">
-                <strong style="font-size: 100px"> <%= internship.Title %> </strong><br />
+            <li class="internship-details" style="list-style: none;">
+                <strong style="font-size: 40px"> <%= internship.Title %> </strong><br />
                 <p>
                     <strong>Description:</strong>
                     <%= internship.Description %>
@@ -48,7 +75,7 @@
     </section>
     <footer class="fs-4">
         <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
-      </footer>
+    </footer>
 </body>
 
 </html>

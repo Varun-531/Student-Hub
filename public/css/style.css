@@ -112,8 +112,11 @@ h2{
   background-position: center;
 
 }
-.internship:hover{
+/* .internship:hover{
   background-color: #8993bd;
+} */
+.internship{
+  text-decoration: none !important;
 }
 #join{
   /* width: 1000px !important;
@@ -142,4 +145,7 @@ h2{
 .hell:hover{
   color: black;
 
+}
+.conf:hover{
+  background-color: #8993bd;
 }

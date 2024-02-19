@@ -177,6 +177,7 @@ app.get("/applied-internships", async (req, res) => {
   }
 
   // Retrieve internship IDs from the array
+  
   const internshipIds = (await StudentInternship.getInternshipByStudentId(userD.id)).map(internship => internship.InternshipID);
 
   console.log('====================================');
