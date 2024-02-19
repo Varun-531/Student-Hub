@@ -55,10 +55,7 @@
           type="submit"
           onclick="window.location.href='/logout'"
           class="login-button btn btn-primary"
-          style="background-color: #2f2e41; border: none"
-        >
-          Logout
-        </button>
+          style="background-color: #2f2e41; border: none">Logout</button>
         <button
           type="button"
           onclick="window.location.href='/home'"
@@ -76,6 +73,7 @@
       <textarea id="description" name="description" required></textarea>
       <label for="location">Location</label>
       <input type="text" id="location" name="location" required />
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       <label for="startDate">Start Date</label>
       <input type="date" id="startDate" name="startDate" required />
       <label for="endDate">End Date</label>

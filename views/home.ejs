@@ -1,103 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-    <link rel="stylesheet" href="./css/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body id="back">
-    <header>
-      <h1>Student Hub</h1>
-      <% if (user) { %>
-      <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
-      <% if (user.isAdmin) { %>
-      <p>Admin 🪦</p>
-      <a href="/Internship-Page">Create Internship</a>
-      <% } else { %>
-      <p>Student🧑‍🎓</p>
-      <a href="/applied-internships">Applied Internships</a>
-      <% } %> <% if (!user) { %>
-      <script>
-        window.location.href = "/login";
-      </script>
-      <% } %>
-      <form action="/logout" method="post">
-        <button
-          type="submit"
-          class="btn btn-primary m-3 fw-semibold"
-          style="background-color: #2f2e41; border: none"
-        >
-          Logout
-        </button>
-      </form>
-      <% } else { %>
-      <p>No User</p>
-      <% } %>
-    </header>
-    <section class="ms-5 inte d-flex justify-content-between">
-      <div style="width: 60%">
-        <h2 class="fs-2 h2 mt-3 mb-3">Available Internships</h2>
-        <% internships.forEach((internship) => { %>
-        <div
-          class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded"
-        >
-          <h3 class="mb-2"><%= internship.Title %></h3>
-          <p class="ms-3"><%= internship.Description %></p>
-          <p class="ms-3">Start Date: <%= internship.StartDate %></p>
-          <!-- <p>End Date: <%= internship.EndDate %></p> -->
-          <p class="ms-3">Location: <%= internship.Location %></p>
-          <% const startDate = new Date(internship.StartDate); const endDate =
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body id="back">
+  <header>
+    <h1>Student Hub</h1>
+    <% if (user) { %>
+    <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
+    <% if (user.isAdmin) { %>
+    <p>Admin 🪦</p>
+    <a href="/Internship-Page">Create Internship</a>
+    <% } else { %>
+    <p>Student🧑‍🎓</p>
+    <a href="/applied-internships">Applied Internships</a>
+    <% } %> <% if (!user) { %>
+    <script>
+      window.location.href = "/login";
+    </script>
+    <% } %>
+    <form action="/logout" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <button type="submit" class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none">
+        Logout
+      </button>
+    </form>
+    <% } else { %>
+    <p>No User</p>
+    <% } %>
+  </header>
+  <section class="ms-5 inte d-flex justify-content-between">
+    <div style="width: 60%">
+      <h2 class="fs-2 h2 mt-3 mb-3">Available Internships</h2>
+      <% internships.forEach((internship) => { %>
+      <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded">
+        <h3 class="mb-2"><%= internship.Title %></h3>
+        <p class="ms-3"><%= internship.Description %></p>
+        <p class="ms-3">Start Date: <%= internship.StartDate %></p>
+        <!-- <p>End Date: <%= internship.EndDate %></p> -->
+        <p class="ms-3">Location: <%= internship.Location %></p>
+        <% const startDate = new Date(internship.StartDate); const endDate =
           new Date(internship.EndDate); const durationInMonths =
           Math.round((endDate - startDate) / (30 * 24 * 60 * 60 * 1000)); %>
-          <p class="ms-3">Duration: <%= durationInMonths %> months</p>
-          <% if (user && user.isAdmin) { %>
-          <!-- Code visible only to admins -->
-          <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
-          <button
-            class="btn btn-primary m-3 fw-semibold"
-            style="background-color: #2f2e41; border: none"
-          >
-            <a href="/internshipDelete/<%= internship.id %>">Delete</a>
-          </button>
-          <% } %> <% if (user && !user.isAdmin) { %>
-          <!-- Code visible only to students -->
-          <button
-            class="btn btn-primary m-3 fw-semibold hell"
-            style="background-color: #2f2e41; border: none"
-            type="button"
-            onclick="window.location.href='/confirmation/<%= internship.id %>'"
-          >
-            Join
-          </button>
-          <!-- <button >
+        <p class="ms-3">Duration: <%= durationInMonths %> months</p>
+        <% if (user && user.isAdmin) { %>
+        <!-- Code visible only to admins -->
+        <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
+        <button class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none">
+          <a href="/internshipDelete/<%= internship.id %>">Delete</a>
+        </button>
+        <% } %> <% if (user && !user.isAdmin) { %>
+        <!-- Code visible only to students -->
+        <button class="btn btn-primary m-3 fw-semibold hell" style="background-color: #2f2e41; border: none"
+          type="button" onclick="window.location.href='/confirmation/<%= internship.id %>'">
+          Join
+        </button>
+        <!-- <button >
             <a id="join" href="/confirmation/<%= internship.id %>">Join</a>
           </button> -->
-          <% } %>
-        </div>
-        <% }); %>
+        <% } %>
       </div>
-      <img
-        src="./assets/images/working.svg"
-        alt="working"
-        style="
+      <% }); %>
+    </div>
+    <img src="./assets/images/working.svg" alt="working" style="
           height: 400px;
           width: auto;
           position: fixed;
           right: -35px;
           padding: 48px 75px 0px 0px;
           margin-top: 40px;
-        "
-      />
-    </section>
-    <footer class="fs-4">
-      <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
-    </footer>
-  </body>
+        " />
+  </section>
+  <footer class="fs-4">
+    <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
+  </footer>
+</body>
+
 </html>

@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -12,7 +12,7 @@ footer {
   padding: 10px;
   text-align: center;
   font-size: 14px;
-  position:sticky;
+  position: sticky;
   bottom: 0;
   height: 51px;
   /* z-index: 1000; */
@@ -61,10 +61,10 @@ a {
   background-size: cover;
   background-position: center;
 }
-.form1{
+.form1 {
   height: 50%;
 }
-.form1 input{
+.form1 input {
   padding: 0% !important;
   margin: 0% !important;
 }
@@ -97,55 +97,56 @@ a {
   font-weight: bold;
   transition: smooth 1s;
 }
+
+header a {
+  transition: all ease-in-out 0.5s;
+}
 header a:hover {
-  font-weight: bold;
-  transition: smooth 1s;
+  transform: scale(1.1);
 }
 
-h2{
-  font-weight:lighter;
+h2 {
+  font-weight: lighter;
 }
 .internship {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%238993bd' fill-opacity='0.2' d='M0,256L40,234.7C80,213,160,171,240,160C320,149,400,171,480,165.3C560,160,640,128,720,133.3C800,139,880,181,960,197.3C1040,213,1120,203,1200,202.7C1280,203,1360,213,1400,218.7L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
 }
 /* .internship:hover{
   background-color: #8993bd;
 } */
-.internship{
+.internship {
   text-decoration: none !important;
 }
-#join{
+#join {
   /* width: 1000px !important;
   height: 50px !important; */
   /* background-color: #2f2e41; */
   color: white !important;
 }
-.inte p{
+.inte p {
   font-size: large;
 }
 
-.inte button{
+.inte button {
   float: none;
   margin: 0px !important;
   padding: 0px;
   color: white;
 }
-.inte button:hover{
+.inte button:hover {
   color: rgb(0, 0, 0) !important;
 }
 
-.inte button a:hover{
+.inte button a:hover {
   /* background-color: #8993bd; */
   color: black !important;
 }
-.hell:hover{
+.hell:hover {
   color: black;
-
 }
-.conf:hover{
+.conf:hover {
   background-color: #8993bd;
 }

@@ -2,7 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const ejs = require("ejs");
-// const csrf = require("tiny-csrf");
+const csrf = require("tiny-csrf");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -12,17 +12,19 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser("Some Secret Key"));
-app.use(session({
-  secret: 'your_secret_key_here', // Replace with a secure secret key
-  resave: false,
-  saveUninitialized: true,
-}));
-// app.use(
-//   csrf(
-//     "123456789iamasecret987654321look", // secret -- must be 32 bits or chars in length
-//     ["POST"], // the request methods we want CSRF protection for 
-//   )
-// );                                                                                                                                
+app.use(
+  session({
+    secret: "your_secret_key_here", // Replace with a secure secret key
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(
+  csrf(
+    "123456789iamasecret987654321look", // secret -- must be 32 bits or chars in length
+    ["POST"] // the request methods we want CSRF protection for
+  )
+);
 const cheerio = require("cheerio");
 const nodemailer = require("nodemailer");
 
@@ -49,9 +51,9 @@ app.get("/login-page", (req, res) => {
   res.render("login", {
     title: "Login",
     year: new Date().getFullYear(),
+    csrfToken: req.csrfToken(),
   });
 });
-
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -72,8 +74,6 @@ app.post("/login", async (req, res) => {
     console.log(e);
   }
 });
-
-
 
 //create a temporary route to test the email functionality
 
@@ -103,6 +103,7 @@ app.get("/signup-page", (req, res) => {
     year: new Date().getFullYear(),
     title: "Students Hub",
     year: new Date().getFullYear(),
+    csrfToken: req.csrfToken(),
   });
 });
 
@@ -112,7 +113,7 @@ app.get("/home", async (req, res) => {
   const userid = req.session.userid;
 
   if (!userD) {
-    res.redirect(302,"/login-page");
+    res.redirect(302, "/login-page");
   }
   const internships = await Internship.getAllInternships();
   res.render("home", {
@@ -121,6 +122,7 @@ app.get("/home", async (req, res) => {
     user: userD,
     userid: userid,
     internships: internships,
+    csrfToken: req.csrfToken(),
   });
 });
 
@@ -135,7 +137,21 @@ app.post("/createInternship", async (req, res) => {
       endDate,
       location
     );
-
+    if (!user) {
+      res.render(302, "login-page", {
+        title: "Login",
+        year: new Date().getFullYear(),
+        csrfToken: req.csrfToken(),
+      });
+    } else {
+      res.render("home", {
+        title: "Home",
+        year: new Date().getFullYear(),
+        user: user,
+        internships: await Internship.getAllInternships(),
+        csrfToken: req.csrfToken(),
+      });
+    }
     // Send email to admin
     const mailOptions = {
       from: "studenthub@outlook.in",
@@ -151,20 +167,6 @@ app.post("/createInternship", async (req, res) => {
         console.log("Email sent: " + info.response);
       }
     });
-
-    if (!user) {
-      res.render(302,"login-page", {
-        title: "Login",
-        year: new Date().getFullYear(),
-      });
-    } else {
-      res.render("home", {
-        title: "Home",
-        year: new Date().getFullYear(),
-        user: user,
-        internships: await Internship.getAllInternships(),
-      });
-    }
   } catch (e) {
     console.log(e);
   }
@@ -173,19 +175,23 @@ app.post("/createInternship", async (req, res) => {
 app.get("/applied-internships", async (req, res) => {
   const userD = req.session.userD;
   if (!userD) {
-    res.redirect(302,"/login-page");
+    res.redirect(302, "/login-page");
   }
 
   // Retrieve internship IDs from the array
-  
-  const internshipIds = (await StudentInternship.getInternshipByStudentId(userD.id)).map(internship => internship.InternshipID);
 
-  console.log('====================================');
+  const internshipIds = (
+    await StudentInternship.getInternshipByStudentId(userD.id)
+  ).map((internship) => internship.InternshipID);
+
+  console.log("====================================");
   console.log(internshipIds);
-  console.log('====================================');
+  console.log("====================================");
 
   // Retrieve internships by their IDs
-  const internships = await Promise.all(internshipIds.map(id => Internship.getInternshipById(id)));
+  const internships = await Promise.all(
+    internshipIds.map((id) => Internship.getInternshipById(id))
+  );
 
   res.render("appliedInternships", {
     title: "Applied Internships",
@@ -194,11 +200,11 @@ app.get("/applied-internships", async (req, res) => {
   });
 });
 
-
 app.get("/Internship-Page", (req, res) => {
   res.render("createInternship", {
     title: "Create Internship",
     year: new Date().getFullYear(),
+    csrfToken: req.csrfToken(),
   });
 });
 
@@ -253,6 +259,7 @@ app.post("/signup", async (req, res) => {
           isAdmin: false,
         },
         year: new Date().getFullYear(),
+        csrfToken: req.csrfToken(),
       });
     }
   } catch (e) {
@@ -270,7 +277,9 @@ app.post("/confirm-internship/:id", async (req, res) => {
   const internshipId = req.params.id;
 
   try {
-    if (await StudentInternship.isStudentJoinedInternship(userid, internshipId)) {
+    if (
+      await StudentInternship.isStudentJoinedInternship(userid, internshipId)
+    ) {
       res.send("You have already joined this internship");
     } else {
       await StudentInternship.studentJoinInternship(userid, internshipId);
@@ -303,7 +312,6 @@ app.post("/confirm-internship/:id", async (req, res) => {
   }
 });
 
-
 app.get("/internships/:studentId", async (req, res) => {
   const internships = await Internship.getInternshipByStudentId(
     req.params.studentId
@@ -320,7 +328,7 @@ app.post("/logout", (req, res) => {
       res.render("index", {
         title: "Student Hub",
         slogan: "Your go-to place for educational resources",
-        // csrfToken: req.csrfToken(),
+        csrfToken: req.csrfToken(),
         year: new Date().getFullYear(),
       });
     }
@@ -335,6 +343,7 @@ app.get("/confirmation/:id", async (req, res) => {
     year: new Date().getFullYear(),
     internship: internship,
     internshipId: internshipId,
+    csrfToken: req.csrfToken(),
   });
 });
 
