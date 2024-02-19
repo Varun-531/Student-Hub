@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link rel="stylesheet" href="./css/style.css" />
-    <meta name="userid" content="<%= userid %>" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -13,7 +12,6 @@
       crossorigin="anonymous"
     />
   </head>
-
   <body id="back">
     <header>
       <h1>Student Hub</h1>
@@ -47,7 +45,9 @@
       <div style="width: 60%">
         <h2 class="fs-2 h2 mt-3 mb-3">Available Internships</h2>
         <% internships.forEach((internship) => { %>
-        <div class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded">
+        <div
+          class="p-3 mb-2 bg-dark-subtle text-emphasis-dark internship rounded"
+        >
           <h3 class="mb-2"><%= internship.Title %></h3>
           <p class="ms-3"><%= internship.Description %></p>
           <p class="ms-3">Start Date: <%= internship.StartDate %></p>
@@ -60,10 +60,22 @@
           <% if (user && user.isAdmin) { %>
           <!-- Code visible only to admins -->
           <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
-          <button class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none;"><a href="/internshipDelete/<%= internship.id %>">Delete</a></button>
+          <button
+            class="btn btn-primary m-3 fw-semibold"
+            style="background-color: #2f2e41; border: none"
+          >
+            <a href="/internshipDelete/<%= internship.id %>">Delete</a>
+          </button>
           <% } %> <% if (user && !user.isAdmin) { %>
           <!-- Code visible only to students -->
-          <button class="btn btn-primary m-3 fw-semibold hell" style="background-color: #2f2e41; border: none;" type="button" onclick="window.location.href='/confirmation/<%= internship.id %>'">Join</button>
+          <button
+            class="btn btn-primary m-3 fw-semibold hell"
+            style="background-color: #2f2e41; border: none"
+            type="button"
+            onclick="window.location.href='/confirmation/<%= internship.id %>'"
+          >
+            Join
+          </button>
           <!-- <button >
             <a id="join" href="/confirmation/<%= internship.id %>">Join</a>
           </button> -->
@@ -74,7 +86,14 @@
       <img
         src="./assets/images/working.svg"
         alt="working"
-        style="height: 400px; width: auto; position: fixed; right: -35px ;padding:48px 75px 0px 0px;margin-top: 40px;"
+        style="
+          height: 400px;
+          width: auto;
+          position: fixed;
+          right: -35px;
+          padding: 48px 75px 0px 0px;
+          margin-top: 40px;
+        "
       />
     </section>
     <footer class="fs-4">

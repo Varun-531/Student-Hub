@@ -1,56 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>confirmation</title>
 </head>
+
 <body>
     <header>
         <h1>Confirmation Page</h1>
-      </header>
+    </header>
 
-                <section>
-                    <h2>Internship Details</h2>
-                    <ul class="internship-details-container">
-                        <li class="internship-details">
-                            <strong style="font-size: 100px"> <%= internship.Title %> </strong
-                            ><br />
-                            <p>
-                                <strong>Description:</strong>
-                                <%= internship.Description %>
-                            </p>
-                            <p>
-                                <strong>Location:</strong>
-                                <%= internship.Location %>
-                            </p>
-                            <p>
-                                <strong>Start Date:</strong>
-                                <%= internship.StartDate %>
-                            </p>
-                            <p>
-                                <strong>End Date:</strong>
-                                <%= internship.EndDate %>
-                            </p>
-        
-                            <!-- Add a form with a button to handle the confirmation -->
-                            <form
-                                method="post"
-                                action="/confirm-internship/<%= internshipId %>"
-                                id="confirmationForm"
-                            >
+    <section>
+        <h2>Internship Details</h2>
+        <ul class="internship-details-container">
+            <li class="internship-details">
+                <strong style="font-size: 100px"> <%= internship.Title %> </strong><br />
+                <p>
+                    <strong>Description:</strong>
+                    <%= internship.Description %>
+                </p>
+                <p>
+                    <strong>Location:</strong>
+                    <%= internship.Location %>
+                </p>
+                <p>
+                    <strong>Start Date:</strong>
+                    <%= internship.StartDate %>
+                </p>
+                <p>
+                    <strong>End Date:</strong>
+                    <%= internship.EndDate %>
+                </p>
 
-                                <button type="submit">Confirm</button>
-                            </form>
-                        </li>
-                    </ul>
-                </section>
-                <footer>
-                    <p>&copy; <%= year %> Your Company. All rights reserved.</p>
-                </footer>
-    </body>
-    </html>
+                <form method="post" action="/confirm-internship/<%= internshipId %>" id="confirmationForm">
+                    
+
+                    <button type="submit">Confirm</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+    <footer>
+        <p>&copy; <%= year %> Your Company. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
 
 
 </body>
+
 </html>
