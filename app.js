@@ -1,3 +1,6 @@
+/* eslint-disable no-dupe-keys */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const express = require("express");
 const session = require("express-session");
 const app = express();
@@ -17,13 +20,13 @@ app.use(
     secret: "your_secret_key_here", // Replace with a secure secret key
     resave: false,
     saveUninitialized: true,
-  })
+  }),
 );
 app.use(
   csrf(
     "123456789iamasecret987654321look", // secret -- must be 32 bits or chars in length
-    ["POST"] // the request methods we want CSRF protection for
-  )
+    ["POST"], // the request methods we want CSRF protection for
+  ),
 );
 const cheerio = require("cheerio");
 const nodemailer = require("nodemailer");
@@ -135,7 +138,7 @@ app.post("/createInternship", async (req, res) => {
       description,
       startDate,
       endDate,
-      location
+      location,
     );
     if (!user) {
       res.render(302, "login-page", {
@@ -190,7 +193,7 @@ app.get("/applied-internships", async (req, res) => {
 
   // Retrieve internships by their IDs
   const internships = await Promise.all(
-    internshipIds.map((id) => Internship.getInternshipById(id))
+    internshipIds.map((id) => Internship.getInternshipById(id)),
   );
 
   res.render("appliedInternships", {
@@ -314,7 +317,7 @@ app.post("/confirm-internship/:id", async (req, res) => {
 
 app.get("/internships/:studentId", async (req, res) => {
   const internships = await Internship.getInternshipByStudentId(
-    req.params.studentId
+    req.params.studentId,
   );
   res.json(internships);
 });
