@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const request = require("supertest");
 const cheerio = require("cheerio");
 const db = require("../models/index");
