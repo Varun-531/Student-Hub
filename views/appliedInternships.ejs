@@ -22,7 +22,9 @@
         /* .intership-details-container:hover{
             background-color: white !important;
         } */
-
+        li{
+            padding-left: 5px;
+        }
         .internship-details {
             /* border: black;
             border-style: solid; */
@@ -52,7 +54,7 @@
         <ul class="internship-details-container">
             <% internships.forEach((internship) => { %>
             <li class="internship-details" style="list-style: none;">
-                <strong style="font-size: 40px"> <%= internship.Title %> </strong><br />
+                <strong style="font-size: 30px"> <%= internship.Title %> </strong><br />
                 <p>
                     <strong>Description:</strong>
                     <%= internship.Description %>

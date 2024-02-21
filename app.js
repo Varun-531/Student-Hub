@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 
 app.get("/login-page", (req, res) => {
   res.render("login", {
-    title: "Login",
+    title: "Student-Hub",
     year: new Date().getFullYear(),
     csrfToken: req.csrfToken(),
   });
@@ -117,7 +117,7 @@ app.get("/home", async (req, res) => {
   }
   const internships = await Internship.getAllInternships();
   res.render("home", {
-    title: "Home",
+    title: "Student-Hub",
     year: new Date().getFullYear(),
     user: userD,
     userid: userid,
@@ -139,13 +139,13 @@ app.post("/createInternship", async (req, res) => {
     );
     if (!user) {
       res.render(302, "login-page", {
-        title: "Login",
+        title: "Student-Hub",
         year: new Date().getFullYear(),
         csrfToken: req.csrfToken(),
       });
     } else {
       res.render("home", {
-        title: "Home",
+        title: "Student-Hub",
         year: new Date().getFullYear(),
         user: user,
         internships: await Internship.getAllInternships(),
@@ -194,7 +194,7 @@ app.get("/applied-internships", async (req, res) => {
   );
 
   res.render("appliedInternships", {
-    title: "Applied Internships",
+    title: "Student-Hub",
     year: new Date().getFullYear(),
     internships: internships,
   });
@@ -202,7 +202,7 @@ app.get("/applied-internships", async (req, res) => {
 
 app.get("/Internship-Page", (req, res) => {
   res.render("createInternship", {
-    title: "Create Internship",
+    title: "Student-Hub",
     year: new Date().getFullYear(),
     csrfToken: req.csrfToken(),
   });
@@ -252,7 +252,7 @@ app.post("/signup", async (req, res) => {
     } else {
       await User.createUser(firstName, lastName, email, password);
       res.render("login", {
-        title: "Login",
+        title: "Student-Hub",
         user: {
           FirstName: firstName,
           LastName: lastName,
@@ -339,7 +339,7 @@ app.get("/confirmation/:id", async (req, res) => {
   const internshipId = req.params.id;
   const internship = await Internship.findByPk(internshipId);
   res.render("finalconfiramation", {
-    title: "Confirmation",
+    title: "Student-Hub",
     year: new Date().getFullYear(),
     internship: internship,
     internshipId: internshipId,
