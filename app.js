@@ -338,6 +338,14 @@ app.post("/logout", (req, res) => {
   });
 });
 
+//create a route to make a user as admin
+app.get("/makeAdmin", (req, res) => {
+  // chvarun2908@gmail.com make this mail as admin
+  const user = User.findOne({ where: { Email: "chvarun2908@gmail.com" } });
+  user.isAdmin = true;
+  res.send("User is now an admin");
+});
+
 app.get("/confirmation/:id", async (req, res) => {
   const internshipId = req.params.id;
   const internship = await Internship.findByPk(internshipId);
