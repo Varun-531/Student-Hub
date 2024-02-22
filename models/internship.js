@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-class-members */
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
@@ -27,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
     static getInternshipById(id) {
       return Internship.findByPk(id);
     }
-    
 
     static uploadInternship(title, description, startDate, endDate, location) {
       return Internship.create({
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Internship",
-    }
+    },
   );
   return Internship;
 };

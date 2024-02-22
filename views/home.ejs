@@ -8,11 +8,20 @@
   <link rel="stylesheet" href="./css/style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-</head>
+  <style>
+    footer{
+      margin-top: 65vh;
+      bottom: 0;
+    }
+    .aaa:hover{
+      color:#2f2e41;
+    }
+  </style>
+  </head>
 
 <body id="back">
-  <header>
-    <h1>Student Hub</h1>
+  <header style="margin-top: 10px;">
+    <h1 style="margin-top: 10px;">Student Hub</h1>
     <% if (user) { %>
     <p>Hello, <%= user.FirstName %> <%= user.LastName %>!</p>
     <% if (user.isAdmin) { %>
@@ -53,8 +62,8 @@
         <% if (user && user.isAdmin) { %>
         <!-- Code visible only to admins -->
         <!-- create a button that takes me to "/internshipDelete/<%= internship.id %>" on clicking -->
-        <button class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none">
-          <a href="/internshipDelete/<%= internship.id %>">Delete</a>
+        <button class="btn btn-primary m-3 fw-semibold" style="background-color: #2f2e41; border: none ;color:white">
+          <a style="color: white !important;" class="aaa" href="/internshipDelete/<%= internship.id %>">Delete</a>
         </button>
         <% } %> <% if (user && !user.isAdmin) { %>
         <!-- Code visible only to students -->
@@ -78,7 +87,7 @@
           margin-top: 40px;
         " />
   </section>
-  <footer class="fs-4">
+  <footer class="fs-5">
     <p>&copy; <%= year %> <%= title %>. All rights reserved.</p>
   </footer>
 </body>
